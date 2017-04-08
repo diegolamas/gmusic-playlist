@@ -1,6 +1,6 @@
 
 # the username to use
-username = 'john.elkins@gmail.com'
+username = 'diego0.zgz@gmail.com'
 
 # the separator to use for detailed track information
 track_info_separator = u','

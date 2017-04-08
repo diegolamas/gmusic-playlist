@@ -17,7 +17,7 @@ if not os.path.exists(output_dir):
 api = open_api()
 library = load_personal_library()
 
-def playlist_handler(playlist_name, playlist_description, playlist_tracks):
+def playlist_handler(playlist_name, playlist_tracks, playlist_id):
     # skip empty and no-name playlists
     if not playlist_name: return
     if len(playlist_tracks) == 0: return
@@ -41,9 +41,9 @@ def playlist_handler(playlist_name, playlist_description, playlist_tracks):
     log('============================================================')
 
     # add the playlist description as a "comment"
-    if playlist_description:
+    if playlist_id:
         outfile.write(tsep)
-        outfile.write(playlist_description)
+        outfile.write(playlist_id)
         outfile.write(os.linesep)
 
     for tnum, pl_track in enumerate(playlist_tracks):
@@ -94,10 +94,10 @@ playlist_contents = api.get_all_user_playlist_contents()
 
 for playlist in playlist_contents:
     playlist_name = playlist.get('name')
-    playlist_description = playlist.get('description')
+    playlist_id = playlist.get('id')
     playlist_tracks = playlist.get('tracks')
 
-    playlist_handler(playlist_name, playlist_description, playlist_tracks)
+    playlist_handler(playlist_name, playlist_tracks, playlist_id)
 
 if export_thumbs_up:
     # get thumbs up playlist
@@ -113,14 +113,13 @@ if export_thumbs_up:
     for t in thumbs_up_tracks:
         thumbs_up_tracks_formatted.append({'track': t})
 
-    playlist_handler('Thumbs up', 'Thumbs up tracks', thumbs_up_tracks_formatted)
+    playlist_handler('Thumbs up', thumbs_up_tracks_formatted, 'Thumbs up tracks')
 
 if export_all:
     all_tracks_formatted = []
     for t in library:
         all_tracks_formatted.append({'track': t})
 
-    playlist_handler('All', 'All tracks', all_tracks_formatted)
+    playlist_handler('All', all_tracks_formatted, 'All tracks')
 
 close_api()
-    

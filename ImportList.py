@@ -210,7 +210,7 @@ start_time = time.time()
 
 # loop over the tracks that were read from the input file
 for track in tracks:
-    
+
     # skip empty lines
     if not track:
         continue
@@ -219,12 +219,13 @@ for track in tracks:
     details_list = get_csv_fields(track)
     details = create_details(details_list)
 
-    # skip comment lines
+    # get playlist id
     if len(details_list) == 2 and not details_list[0]:
         log(details_list[1])
         csvfile.write(tsep)
         csvfile.write(details_list[1])
         csvfile.write(os.linesep)
+        playlist_id = details_list[1]
         continue
 
     # skip empty details records
@@ -285,7 +286,7 @@ for track in tracks:
         continue
 
     update_stats(result,stats)
-    
+
     # add the song to the id list
     add_song(result_details,result_score)
 
@@ -306,7 +307,7 @@ while current_playlist <= total_playlists_needed:
         current_playlist_name += u' Part ' + unicode(current_playlist)
 
     # create the playlist and add the songs
-    playlist_id = api.create_playlist(current_playlist_name)
+    #playlist_id = api.create_playlist(current_playlist_name)
     current_playlist_index = ( current_playlist - 1 ) * max_playlist_size
     current_songs = song_ids[current_playlist_index :
                              current_playlist_index + max_playlist_size]
@@ -345,4 +346,3 @@ log_stats(stats_results)
 log('\nsearch time: '+str(total_time))
 
 cleanup()
-
